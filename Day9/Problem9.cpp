@@ -76,11 +76,11 @@ long ExtrapolateSequences( const vector<string> &lines, int part){
 }
 
 long part1(const vector<string>& lines) {
-    return ExtrapolateSequences(lines, 1);
+    return ExtrapolateSequences(lines, 1); // Backwards
 }
 
 long part2(const vector<string>& lines) {
-    return ExtrapolateSequences(lines, 2);
+    return ExtrapolateSequences(lines, 2); // Forwards
 }
 
 int main() {
