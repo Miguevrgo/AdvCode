@@ -23,7 +23,7 @@ vector<long> splitStringToNumbers(const string& str) {
     string number;
     while (iss >> number) {
         if (isdigit(number[0]) || (number[0] == '-' && isdigit(number[1]))){
-            numbers.push_back(stol(number));
+            numbers.emplace_back(stol(number));
         }
     }
     return numbers;
