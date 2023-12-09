@@ -16,10 +16,10 @@ vector<string> process_input(const string& filename) {
     return lines;
 }
 
-vector<long> splitStringToNumbers(const std::string& str) {
-    std::vector<long> numbers;
+vector<long> splitStringToNumbers(const string& str) {
+    vector<long> numbers;
     // Read numbers from string separated by spaces and store them in a vector
-    std::istringstream iss(str);
+    istringstream iss(str);
     string number;
     while (iss >> number) {
         if (isdigit(number[0]) || (number[0] == '-' && isdigit(number[1]))){
