@@ -19,7 +19,7 @@ I hope it results useful to anyone wanting to compare solutions and learn new wa
 | 7   | ✅   |
 | 8   | ✅   |
 | 9   | ✅   |
-| 10  | ❌   | 
+| 10  | ✅   | 
 | 11  | ❌   | 
 | 12  | ❌   | 
 | 13  | ❌   | 
