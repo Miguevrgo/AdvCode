@@ -46,6 +46,7 @@ int part1(vector<string> lines) {
 
 long part2(vector<string> lines) {
     vector<int> cards(lines.size(), 1);
+    
     for (int i = 0; i < lines.size(); ++i) {
         unsigned long splitPos = lines[i].find(':');
         unsigned long splitPos2 = lines[i].find('|', splitPos+1);

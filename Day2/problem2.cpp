@@ -80,6 +80,7 @@ int sol2(const string &file){
         if (pos != string::npos) {
             line.erase(0, pos + 1);
         }
+        int i = 0;
         if (isdigit(line[i])) {
             while (isdigit(line[i])) {
                 number = number * 10 + (line[i] - '0');
