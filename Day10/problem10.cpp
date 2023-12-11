@@ -115,7 +115,7 @@ int part1(const vector<string> &graph, const pair<int, int> &startPos) {
         }
     }
 
-    return length/2;
+    return length>>1;
 }
 
 
