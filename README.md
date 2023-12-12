@@ -21,7 +21,7 @@ I hope it results useful to anyone wanting to compare solutions and learn new wa
 | 9   | ✅   |
 | 10  | ✅   | 
 | 11  | ✅   | 
-| 12  | ❌   | 
+| 12  | ✅   | 
 | 13  | ❌   | 
 | 14  | ❌   | 
 | 15  | ❌   |
