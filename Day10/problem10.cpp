@@ -12,7 +12,6 @@ const pair<int, int> dirUp{-1, 0};
 const pair<int, int> dirDown{1, 0};
 const pair<int, int> dirRight{0, 1};
 const pair<int, int> dirLeft{0, -1};
-
 const vector<pair<int, int>> dirEdges{dirUp, dirRight, dirDown, dirLeft};
 
 struct pair_hash {
