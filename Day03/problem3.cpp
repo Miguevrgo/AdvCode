@@ -85,8 +85,8 @@ long calculateSum2(vector <vector<char>> matrix) {
     return sum;
 }
 
-int main(int argc, char* argv[]) {
-    ifstream file1(argv[1], ios::in);
+int main() {
+    ifstream file1("input.txt", ios::in);
     vector<vector<char>> matrix = fillMatrix(file1);
 
     cout << "La suma 1 es " << calculateSum1(matrix) << endl;
