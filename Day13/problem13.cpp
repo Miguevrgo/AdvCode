@@ -1,6 +1,10 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <string>
+#include <algorithm>
+#include <cmath>
+
 
 using namespace std;
 
@@ -27,47 +31,89 @@ vector<vector<string> > processBlocks(const vector<string> &lines){
             block.emplace_back(line);
         }
     }
+    blocks.emplace_back(block);
 
     return blocks;
 }
 
-long part1(const vector<vector<string> > &blocks) {
-    long sum = 0;
-    for (auto &block : blocks) {
-        long rowsLeft = 0;
-        long colsAbove = 0;
+int find_mirror(const vector<string>& grid) {
+    for (int r = 1; r < grid.size(); ++r) {
+        vector<string> above(grid.begin(), grid.begin() + r);
+        reverse(above.begin(), above.end());
+        vector<string> below(grid.begin() + r, grid.end());
 
-        for ( int i = 1; i < block.size(); ++i) {
-            if (block[i] == block[i-1]) { // Found simmetry row
-                rowsLeft = block.size() - i;
-                break;
-            }
+        above.resize(min(above.size(), below.size()));
+        below.resize(min(above.size(), below.size()));
+
+        if (above == below) {
+            return r;
         }
-
-        // Same for simmetry col
-        for ( int i = 1; i < block[0].size(); ++i) {
-            bool found = true;
-            for (int j = 1; j < block.size(); ++j) {
-                if (block[j][i] != block[j][i-1]) {
-                    found = false;
-                    break;
-                }
-            }
-            if (found) {
-                colsAbove = block[0].size() - i;
-                break;
-            }
-        }
-
-        sum += rowsLeft + colsAbove*100;
     }
-    return sum;
-}
-
-int part2(const vector<vector<string> > &blocks) {
     return 0;
 }
 
+long part1(const vector<vector<string> > &blocks) {
+    int total = 0;
+    for (auto& block : blocks) {
+        int row = find_mirror(block);
+        total += row * 100;
+
+        vector<string> transposed_block(block[0].size(), string(block.size(), ' '));
+        for (int i = 0; i < block.size(); ++i) {
+            for (int j = 0; j < block[i].size(); ++j) {
+                transposed_block[j][i] = block[i][j];
+            }
+        }
+
+        int col = find_mirror(transposed_block);
+        total += col;
+    }
+    return total;
+}
+
+int find_mirror_part2(const vector<string>& grid) {
+    for (int r = 1; r < grid.size(); ++r) {
+        vector<string> above(grid.begin(), grid.begin() + r);
+        reverse(above.begin(), above.end());
+        vector<string> below(grid.begin() + r, grid.end());
+
+        above.resize(min(above.size(), below.size()));
+        below.resize(min(above.size(), below.size()));
+
+        int diff_count = 0;
+        for (int i = 0; i < min(above.size(), below.size()); ++i) {
+            for (int j = 0; j < above[i].size(); ++j) {
+                if (above[i][j] != below[i][j]) {
+                    ++diff_count;
+                }
+            }
+        }
+
+        if (diff_count == 1) {
+            return r;
+        }
+    }
+    return 0;
+}
+
+long part2(const vector<vector<string> > &blocks) {
+    int total = 0;
+    for (auto& block : blocks) {
+        int row = find_mirror_part2(block);
+        total += row * 100;
+
+        vector<string> transposed_block(block[0].size(), string(block.size(), ' '));
+        for (int i = 0; i < block.size(); ++i) {
+            for (int j = 0; j < block[i].size(); ++j) {
+                transposed_block[j][i] = block[i][j];
+            }
+        }
+
+        int col = find_mirror_part2(transposed_block);
+        total += col;
+    }
+    return total;
+}
 
 int main() {
     string filename = "input.txt";
