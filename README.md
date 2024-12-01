@@ -4,37 +4,40 @@ Personal solutions to the yearly [Advent of Code](https://adventofcode.com/). A 
 ended up loving the challenges and the learning it provides, encouraging me to complete it every year trying to improve
 my skills in the journey.
 
+- In 2023 I tried to make it in Modern C++
+- In 2024 I tried to make it in Rust
+
 I hope it results useful to anyone wanting to compare solutions and learn new ways of approaching the same problem. 
 
 ## 🏆 Completed Days
 
-| Day | 2023 |
-|----:|:----:|
-| 1   | ✅   | 
-| 2   | ✅   |
-| 3   | ✅   |
-| 4   | ✅   |
-| 5   | ✅   |
-| 6   | ✅   |
-| 7   | ✅   |
-| 8   | ✅   |
-| 9   | ✅   |
-| 10  | ✅   | 
-| 11  | ✅   | 
-| 12  | ✅   | 
-| 13  | ❌   | 
-| 14  | ❌   | 
-| 15  | ❌   |
-| 16  | ❌   | 
-| 17  | ❌   |
-| 18  | ❌   | 
-| 19  | ❌   | 
-| 20  | ❌   | 
-| 21  | ❌   | 
-| 22  | ❌   | 
-| 23  | ❌   | 
-| 24  | ❌   | 
-| 25  | ❌   |
+| Day | 2023 | 2024 |
+|----:|:----:|:----:|
+| 1   | ✅   | ✅   |
+| 2   | ✅   |      |
+| 3   | ✅   |      |
+| 4   | ✅   |      |
+| 5   | ✅   |      |
+| 6   | ✅   |      |
+| 7   | ✅   |      |
+| 8   | ✅   |      |
+| 9   | ✅   |      |
+| 10  | ✅   |      |
+| 11  | ✅   |      |
+| 12  | ✅   |      |
+| 13  | ❌   |      |
+| 14  | ❌   |      |
+| 15  | ❌   |      |
+| 16  | ❌   |      |
+| 17  | ❌   |      |
+| 18  | ❌   |      |
+| 19  | ❌   |      |
+| 20  | ❌   |      |
+| 21  | ❌   |      |
+| 22  | ❌   |      |
+| 23  | ❌   |      |
+| 24  | ❌   |      |
+| 25  | ❌   |      |
 
 ## Contribution
 
