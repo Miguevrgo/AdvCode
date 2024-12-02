@@ -4,7 +4,7 @@ fn part1() {
     let mut left: Vec<u32> = Vec::new();
     let mut right: Vec<u32> = Vec::new();
 
-    let contents = fs::read_to_string("../input").unwrap();
+    let contents = fs::read_to_string("./input").unwrap();
     let strings: Vec<_> = contents.split_whitespace().collect();
     let elems: Vec<u32> = strings.iter().flat_map(|x| x.parse()).collect();
 
@@ -31,7 +31,7 @@ fn part2() {
     let mut left: Vec<u32> = Vec::new();
     let mut right: Vec<u32> = Vec::new();
 
-    let contents = fs::read_to_string("../input").unwrap();
+    let contents = fs::read_to_string("./input").unwrap();
     let strings: Vec<_> = contents.split_whitespace().collect();
     let elems: Vec<u32> = strings.iter().flat_map(|x| x.parse()).collect();
     let mut total_distance = 0;
