@@ -80,40 +80,33 @@ fn part1() {
 }
 
 fn part2() {
-    let mut left: Vec<u32> = Vec::new();
-    let mut right: Vec<u32> = Vec::new();
+    let mut count = 0;
 
     let contents = fs::read_to_string("./input").unwrap();
-    let strings: Vec<_> = contents.split_whitespace().collect();
-    let elems: Vec<u32> = strings.iter().flat_map(|x| x.parse()).collect();
-    let mut total_distance = 0;
+    let strings: Vec<Vec<char>> = contents
+        .lines()
+        .map(|line| line.chars().collect())
+        .collect();
 
-    for i in (0..elems.len()).step_by(2) {
-        left.push(elems[i]);
-        if i + 1 < elems.len() {
-            right.push(elems[i + 1]);
-        }
-    }
+    let mas_patterns = ["MAS", "SAM"];
 
-    left.sort();
-    right.sort();
+    for i in 1..strings.len() - 1 {
+        for j in 1..strings[i].len() - 1 {
+            let left = [strings[i - 1][j - 1], strings[i][j], strings[i + 1][j + 1]]
+                .iter()
+                .collect::<String>();
 
-    let mut j = 0;
+            let right = [strings[i - 1][j + 1], strings[i][j], strings[i + 1][j - 1]]
+                .iter()
+                .collect::<String>();
 
-    for elem in left {
-        let mut counter = 0;
-
-        while j < right.len() && right[j] <= elem {
-            if right[j] == elem {
-                counter += 1;
+            if mas_patterns.contains(&left.as_str()) && mas_patterns.contains(&right.as_str()) {
+                count += 1;
             }
-            j += 1;
         }
-
-        total_distance += counter * elem;
     }
 
-    println!("Final total distance: {}", total_distance);
+    println!("Part 2: {count}");
 }
 
 fn main() {
