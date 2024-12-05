@@ -1,69 +1,48 @@
 use std::fs;
 
-fn part1() {
-    let mut counter: u32 = 0;
-    let contents = fs::read_to_string("./input").unwrap();
-    let data: Vec<Vec<u32>> = contents
-        .lines()
-        .map(|line| {
-            line.split_whitespace()
-                .map(|x| x.parse::<u32>().expect("Error"))
-                .collect()
-        })
-        .collect();
+fn is_safe(x: &[i32]) -> bool {
+    let mut increasing = true;
+    let mut decreasing = true;
 
-    for row in data.iter() {
-        if is_monotonic(row) && is_short(row) {
-            counter += 1;
+    for i in 0..x.len() - 1 {
+        if x[i] < x[i + 1] {
+            increasing = false;
+        }
+        if x[i] > x[i + 1] {
+            decreasing = false;
+        }
+        if !(1..=3).contains(&x[i].abs_diff(x[i + 1])) {
+            return false;
         }
     }
 
-    println!("{}", counter);
+    increasing || decreasing
 }
 
-fn is_short(row: &Vec<u32>) -> bool {
-    row.windows(2)
-        .all(|w| (w[0] as i32 - w[1] as i32).abs() <= 3)
-}
-
-fn is_monotonic(row: &Vec<u32>) -> bool {
-    let is_increasing = row.windows(2).all(|w| w[0] < w[1]);
-    let is_decreasing = row.windows(2).all(|w| w[0] > w[1]);
-    is_increasing || is_decreasing
-}
-
-fn can_be_made_safe(row: &Vec<u32>) -> bool {
-    for i in 0..row.len() {
-        let mut temp_row = row.clone();
-        temp_row.remove(i);
-        if is_monotonic(&temp_row) && is_short(&temp_row) {
-            return true;
-        }
-    }
-    false
-}
-
-fn part2() {
-    let mut counter: u32 = 0;
-    let contents = fs::read_to_string("./input").unwrap();
-    let data: Vec<Vec<u32>> = contents
-        .lines()
-        .map(|line| {
-            line.split_whitespace()
-                .map(|x| x.parse::<u32>().expect("Error"))
-                .collect()
-        })
-        .collect();
-
-    for row in data.iter() {
-        if can_be_made_safe(row) {
-            counter += 1;
-        }
-    }
-    println!("{}", counter);
+fn can_be_safe(x: &[i32]) -> bool {
+    (0..x.len()).any(|i| {
+        let mut y = x.to_vec();
+        y.remove(i);
+        is_safe(&y)
+    })
 }
 
 fn main() {
-    part1();
-    part2();
+    let input = fs::read_to_string("./input").expect("File input not found");
+    let (mut p1, mut p2) = (0, 0);
+
+    for line in input.lines() {
+        let x = line
+            .split_ascii_whitespace()
+            .map(|num| num.parse().unwrap())
+            .collect::<Vec<_>>();
+        if is_safe(&x) {
+            p1 += 1;
+        }
+        if can_be_safe(&x) {
+            p2 += 1;
+        }
+    }
+
+    println!("Part 1: {p1}\nPart 2: {p2}");
 }
