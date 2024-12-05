@@ -1,39 +1,25 @@
 use regex::Regex;
 use std::fs;
 
-fn part1() {
-    let mut sum: i32 = 0;
-    let contents = fs::read_to_string("./input").unwrap();
-    let re = Regex::new(r"mul\((\d+),(\d+)\)").unwrap();
-    for (_, [num1, num2]) in re.captures_iter(&contents).map(|c| c.extract()) {
-        sum += num1.parse::<i32>().unwrap() * num2.parse::<i32>().unwrap();
-    }
+fn main() {
+    let input = fs::read_to_string("./input").unwrap();
+    let r = Regex::new(r"(mul\(\d+,\d+\)|do(n't)?\(\))").unwrap();
+    let (mut p1, mut p2, mut ok) = (0, 0, true);
 
-    println!("{}", sum);
-}
-
-fn part2() {
-    let mut sum: i32 = 0;
-    let mut mul_enabled = true;
-    let contents = fs::read_to_string("./input").unwrap();
-    let re = Regex::new(r"(do\(\)|don't\(\))|mul\((\d+),(\d+)\)").unwrap();
-
-    for cap in re.captures_iter(&contents) {
-        if let Some(instruction) = cap.get(1) {
-            if instruction.as_str() == "do()" {
-                mul_enabled = true;
-            } else if instruction.as_str() == "don't()" {
-                mul_enabled = false;
+    for x in r.find_iter(&input) {
+        match x.as_str() {
+            "do()" => ok = true,
+            "don't()" => ok = false,
+            x => {
+                let (mul1, mul2) = x[4..x.len() - 1].split_once(',').unwrap();
+                let temp = mul1.parse::<u32>().unwrap() * mul2.parse::<u32>().unwrap();
+                p1 += temp;
+                if ok {
+                    p2 += temp;
+                }
             }
-        } else if mul_enabled {
-            sum += cap[2].parse::<i32>().unwrap() * cap[3].parse::<i32>().unwrap();
         }
     }
 
-    println!("{}", sum);
-}
-
-fn main() {
-    part1();
-    part2();
+    println!("Part 1: {p1}\nPart 2: {p2}");
 }
