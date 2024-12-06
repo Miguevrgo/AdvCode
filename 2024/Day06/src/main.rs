@@ -1,53 +1,69 @@
 use std::fs;
 
-fn main() {
-    let input = fs::read_to_string("./input").expect("File input not found");
-    let mut map: Vec<Vec<char>> = input.lines().map(|l| l.chars().collect()).collect();
-    let directions = [
-        ('>', (0, 1)),  // Right
-        ('v', (1, 0)),  // Bottom
-        ('<', (0, -1)), // Left
-        ('^', (-1, 0)), // Top
-    ];
+fn walk(
+    m: &mut [Vec<char>],
+    mut row: usize,
+    mut col: usize,
+    return_squares: bool,
+) -> Option<Vec<(usize, usize)>> {
+    let mut seen = vec![vec![[false; 4]; m[0].len()]; m.len()];
+    let mut dir = 0;
+    loop {
+        if seen[row][col][dir] {
+            return None;
+        }
+        seen[row][col][dir] = true;
 
-    let (mut row, mut col, mut dir) = map
-        .iter()
-        .enumerate()
-        .flat_map(|(i, row)| row.iter().enumerate().map(move |(j, &c)| (i, j, c)))
-        .find_map(|(i, j, c)| {
-            directions
-                .iter()
-                .find(|&&(ch, _)| ch == c)
-                .map(|&(_, dir)| (i as i32, j as i32, dir))
-        })
-        .expect("Character should be found");
+        let (dr, dc) = [(-1, 0), (0, 1), (1, 0), (0, -1)][dir];
+        let (new_row, new_col) = (row as isize + dr, col as isize + dc);
 
-    while row >= 0 && row < map.len() as i32 && col >= 0 && col < map[row as usize].len() as i32 {
-        let new_row = row + dir.0;
-        let new_col = col + dir.1;
-
-        if !(0..map.len() as i32).contains(&new_row) || !(0..map[0].len() as i32).contains(&new_col)
+        if new_row < 0
+            || new_row >= m.len() as isize
+            || new_col < 0
+            || new_col >= m[0].len() as isize
         {
-            break;
+            if !return_squares {
+                return Some(Vec::new());
+            }
+            let mut visited = Vec::new();
+            for (i, row) in m.iter().enumerate() {
+                for (j, _) in row.iter().enumerate() {
+                    if seen[i][j].iter().any(|&b| b) {
+                        visited.push((i, j));
+                    }
+                }
+            }
+            return Some(visited);
         }
 
-        if map[new_row as usize][new_col as usize] != '#' {
-            row = new_row;
-            col = new_col;
-            map[new_row as usize][new_col as usize] = 'X';
+        let (new_row, new_col) = (new_row as usize, new_col as usize);
+        if m[new_row][new_col] == '#' {
+            dir = (dir + 1) % 4;
         } else {
-            let current_dir_index = directions.iter().position(|&(_, d)| d == dir).unwrap();
-            dir = directions[(current_dir_index + 1) % directions.len()].1;
+            (row, col) = (new_row, new_col);
         }
     }
+}
 
-    let (p1, p2) = (
-        map.iter()
-            .flat_map(|row| row.iter())
-            .filter(|&&c| c == 'X')
-            .count()
-            + 1,
-        0,
-    );
-    println!("Part 1: {p1}\nPart 2: {p2}");
+fn main() {
+    let input = fs::read_to_string("./input").expect("File input not found");
+    let mut m: Vec<Vec<char>> = input.lines().map(|l| l.chars().collect()).collect();
+    let (sr, sc) = (0..m.len())
+        .flat_map(|r| (0..m[0].len()).map(move |c| (r, c)))
+        .find(|&(r, c)| m[r][c] == '^')
+        .expect("Start position not found");
+
+    let p1 = walk(&mut m, sr, sc, true).expect("Failed to find a valid path for p1");
+    let p2 = p1
+        .iter()
+        .filter(|&&(r, c)| {
+            let expected_dir = m[r][c];
+            m[r][c] = '#'; // Block the cell
+            let result = walk(&mut m, sr, sc, false);
+            m[r][c] = expected_dir; // Restore the cell
+            result.is_none()
+        })
+        .count();
+
+    println!("Part 1: {}\nPart 2: {}", p1.len(), p2);
 }
