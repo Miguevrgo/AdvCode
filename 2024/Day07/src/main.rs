@@ -8,7 +8,7 @@ fn valid(nums: &[i64], target: i64, part2: bool) -> i64 {
             return target;
         }
 
-        if i < nums.len() {
+        if i < nums.len() && current <= target {
             let num = nums[i];
             stack.push((i + 1, current + num));
             stack.push((i + 1, current * num));
