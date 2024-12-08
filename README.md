@@ -18,9 +18,9 @@ I hope it results useful to anyone wanting to compare solutions and learn new wa
 | 3   | ✅   | ✅   |
 | 4   | ✅   | ✅   |
 | 5   | ✅   | ✅     |
-| 6   | ✅   |      |
-| 7   | ✅   |      |
-| 8   | ✅   |      |
+| 6   | ✅   | ✅     |
+| 7   | ✅   |  ✅    |
+| 8   | ✅   |  ✅    |
 | 9   | ✅   |      |
 | 10  | ✅   |      |
 | 11  | ✅   |      |
