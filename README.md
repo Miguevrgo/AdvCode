@@ -31,7 +31,7 @@ I hope it results useful to anyone wanting to compare solutions and learn new wa
 | 15  | ❌   | ❌   |      |
 | 16  | ❌   | ❌   |      |
 | 17  | ❌   | ❌   |      |
-| 18  | ❌   | ❌   |      |
+| 18  | ❌   | ❌   | ✅   |
 | 19  | ❌   | ❌   |      |
 | 20  | ❌   | ❌   |      |
 | 21  | ❌   | ❌   |      |
