@@ -33,12 +33,12 @@ I hope it results useful to anyone wanting to compare solutions and learn new wa
 | 17  | ❌   | ❌   |      |
 | 18  | ❌   | ❌   | ✅   |
 | 19  | ❌   | ❌   |      |
-| 20  | ❌   | ❌   |      |
+| 20  | ❌   | ❌   | ✅   |
 | 21  | ❌   | ❌   |      |
-| 22  | ❌   | ❌   |      |
+| 22  | ❌   | ❌   | ✅   |
 | 23  | ❌   | ❌   |      |
 | 24  | ❌   | ❌   |      |
-| 25  | ❌   | ❌   |      |
+| 25  | ❌   | ❌   | ✅   |
 
 ## Contribution
 

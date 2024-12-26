@@ -4,8 +4,8 @@ const MASK: u64 = 0b00000_11111_11111_11111_11111_11111_00000; // Máscara para 
 
 fn main() {
     let input = fs::read_to_string("input").expect("File not found");
-    let mut keys = Vec::new();
-    let mut locks = Vec::new();
+    let mut keys = Vec::with_capacity(150);
+    let mut locks = Vec::with_capacity(150);
 
     for block in input.split("\n\n") {
         let bits = block.lines().fold(0u64, |acc, line| {
