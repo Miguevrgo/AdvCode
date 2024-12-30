@@ -15,8 +15,8 @@ I hope it results useful to anyone wanting to compare solutions and learn new wa
 | Day | 2022 | 2023 | 2024 |
 |----:|:----:|:----:|:----:|
 | 1   | ✅   | ✅   | ✅   |
-| 2   | ❌   | ✅   | ✅   |
-| 3   | ❌   | ✅   | ✅   |
+| 2   | ✅   | ✅   | ✅   |
+| 3   | ✅   | ✅   | ✅   |
 | 4   | ❌   | ✅   | ✅   |
 | 5   | ❌   | ✅   | ✅   |
 | 6   | ❌   | ✅   | ✅   |
