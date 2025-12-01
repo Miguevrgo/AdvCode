@@ -1,28 +1,23 @@
-fn main() {
-    let input = std::fs::read_to_string("input").expect("Input file not found");
-    let mut dial_pos: i32 = 50;
-    let (mut p1, mut p2) = (0, 0);
-    input.lines().for_each(|l| {
-        let initial_pos = dial_pos;
-        let mut neg = false;
-        if let Some(stripped) = l.strip_prefix('L') {
-            dial_pos -= stripped.parse::<i32>().unwrap();
-            neg = true;
-        } else {
-            dial_pos += l[1..].parse::<i32>().unwrap();
-        }
-        let distance = (initial_pos - dial_pos).abs();
-        if neg {
-            p2 += ((100 - initial_pos) + distance).div_euclid(100);
-            p2 -= (100 - initial_pos) / 100;
-        } else {
-            p2 += (initial_pos + distance).div_euclid(100);
-        }
-        dial_pos = dial_pos.rem_euclid(100);
+use std::fs;
 
-        if (dial_pos % 100) == 0 {
-            p1 += 1;
-        }
+fn main() {
+    let input = fs::read_to_string("input").expect("Input file not found");
+
+    let (p1, p2, _) = input.lines().fold((0, 0, 50), |(p1, p2, pos), line| {
+        let (dir, val_str) = line.split_at(1);
+        let val = val_str.parse::<i32>().unwrap();
+
+        let (raw_pos, laps) = match dir {
+            "L" => {
+                let gap = 100 - pos;
+                (pos - val, (gap + val) / 100 - (gap / 100))
+            }
+            _ => (pos + val, (pos + val) / 100),
+        };
+
+        let new_pos = raw_pos.rem_euclid(100);
+
+        (p1 + i32::from(new_pos == 0), p2 + laps, new_pos)
     });
 
     println!("Part 1: {p1}, Part 2: {p2}");
