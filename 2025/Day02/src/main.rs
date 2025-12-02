@@ -27,11 +27,13 @@ fn main() {
                 return;
             }
 
-            for chunk in 1..=(len / 2) {
-                let first = bytes.chunks(chunk).next().unwrap();
-                if !bytes.chunks(chunk).any(|ch| ch != first) {
-                    p2 += id;
-                    break;
+            for chunk in (1..=(len / 2)).rev() {
+                if len % chunk == 0 {
+                    let first = bytes.chunks(chunk).next().unwrap();
+                    if !bytes.chunks(chunk).any(|ch| ch != first) {
+                        p2 += id;
+                        break;
+                    }
                 }
             }
         });
