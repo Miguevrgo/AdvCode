@@ -1,42 +1,27 @@
 fn main() {
     let input = std::fs::read_to_string("input").expect("Unable to find input file");
+    let banks: Vec<&[u8]> = input.lines().map(str::as_bytes).collect();
 
-    let banks: Vec<Vec<u8>> = input
-        .lines()
-        .map(|l| {
-            let mut bank = Vec::with_capacity(l.len());
-            for ch in l.chars() {
-                bank.push(ch.to_digit(10).unwrap() as u8);
-            }
+    let (p1, p2): (u64, u64) = banks.iter().fold((0, 0), |(acc1, acc2), &bank| {
+        let solve = |tops: &mut [u8]| -> u64 {
+            for (i, &rating) in bank.iter().enumerate() {
+                let mut pos = tops.len().saturating_sub(bank.len() - i);
 
-            bank
-        })
-        .collect();
-
-    let (mut p1, mut p2): (u64, u64) = (0, 0);
-    for bank in banks {
-        let mut tops = [0; 12];
-
-        for (i, &rating) in bank.iter().enumerate() {
-            let mut pos = tops.len().saturating_sub(bank.len() - i);
-            while pos < tops.len() {
-                if rating > tops[pos] {
-                    tops[pos] = rating;
-                    for val in &mut tops[(pos + 1)..] {
-                        *val = 0;
+                while pos < tops.len() {
+                    if rating > tops[pos] {
+                        tops[pos] = rating;
+                        tops[(pos + 1)..].fill(0);
+                        break;
                     }
-                    break;
+                    pos += 1;
                 }
-                pos += 1;
             }
-        }
+            tops.iter()
+                .fold(0, |acc, &d| acc * 10 + d.saturating_sub(b'0') as u64)
+        };
 
-        p1 += (tops[0] * 10 + tops[1]) as u64;
-
-        for (i, &top) in tops.iter().enumerate() {
-            p2 += top as u64 * 10_u64.pow((tops.len() - i - 1) as u32)
-        }
-    }
+        (acc1 + solve(&mut [0u8; 2]), acc2 + solve(&mut [0u8; 12]))
+    });
 
     println!("Part 1: {p1}, Part 2: {p2}");
 }
