@@ -13,29 +13,28 @@ fn main() {
         })
         .collect();
 
-    let (mut p1, mut p2): (u32, u32) = (0, 0);
+    let (mut p1, mut p2): (u64, u64) = (0, 0);
     for bank in banks {
-        let mut tops = vec![0; 12];
-        let mut top_one = (0, 0);
-        let mut top_two = (0, 0);
+        let mut tops = [0; 12];
+
         for (i, &rating) in bank.iter().enumerate() {
-            if rating > top_two.1 {
-                if rating > top_one.1 && i < bank.len() - 1 {
-                    top_two = (0, 0);
-                    top_one = (i, rating);
-                } else {
-                    top_two = (i, rating);
+            let mut pos = tops.len().saturating_sub(bank.len() - i);
+            while pos < tops.len() {
+                if rating > tops[pos] {
+                    tops[pos] = rating;
+                    for val in &mut tops[(pos + 1)..] {
+                        *val = 0;
+                    }
+                    break;
                 }
+                pos += 1;
             }
         }
 
-        println!("top_one: {top_one:?}, top_two:{top_two:?}");
-        if top_one.0 < top_two.0 {
-            println!("{}", (top_one.1 * 10 + top_two.1));
-            p1 += (top_one.1 * 10 + top_two.1) as u32
-        } else {
-            println!("{}", (top_two.1 * 10 + top_one.1));
-            p1 += (top_two.1 * 10 + top_one.1) as u32
+        p1 += (tops[0] * 10 + tops[1]) as u64;
+
+        for (i, &top) in tops.iter().enumerate() {
+            p2 += top as u64 * 10_u64.pow((tops.len() - i - 1) as u32)
         }
     }
 
