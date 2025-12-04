@@ -1,0 +1,11 @@
+[workspace]
+resolver = "2"
+
+members = [
+    "launcher",
+    "2022",
+    "2024",
+    "2025"
+]
+
+default-members = ["launcher"] 

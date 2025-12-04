@@ -1,0 +1,10 @@
+[package]
+name = "launcher"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+year2022 = { path = "../2022" }
+year2024 = { path = "../2024" }
+year2025 = { path = "../2025" }
+gag = "1.0.0"
