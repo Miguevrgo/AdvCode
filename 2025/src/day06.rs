@@ -1,38 +1,32 @@
-const NUM_ROWS: u32 = 4;
-
 pub fn run() {
     let input = include_str!("../input/day06.txt");
-    let mut cols: Vec<Vec<String>> = Vec::new();
-    let mut operations = Vec::new();
-    let mut num_digits: Vec<u8> = Vec::new();
+    let mut lines: Vec<&str> = input.lines().filter(|l| !l.trim().is_empty()).collect();
+    let op_str = lines.pop().unwrap();
 
-    let op_str = input.lines().last().unwrap();
-    let mut spaces = 0;
+    let op_indices: Vec<(usize, char)> = op_str
+        .char_indices()
+        .filter(|(_, ch)| !ch.is_whitespace())
+        .collect();
 
-    for ch in op_str.chars() {
-        if ch.is_whitespace() {
-            spaces += 1;
-        } else {
-            if !operations.is_empty() {
-                num_digits.push(spaces);
-            }
-            operations.push(ch);
-            spaces = 0;
-        }
+    let mut ranges = Vec::with_capacity(op_indices.len());
+    let mut operations = Vec::with_capacity(op_indices.len());
+
+    for i in 0..op_indices.len() {
+        let (start, op) = op_indices[i];
+        let end = op_indices.get(i + 1).map(|p| p.0).unwrap_or(op_str.len());
+
+        ranges.push(start..end);
+        operations.push(op);
     }
-    num_digits.push(spaces + 1);
 
-    for (l_num, l) in input.lines().enumerate() {
-        if l_num < NUM_ROWS as usize {
-            let mut current = 0;
-            for (i, &jump) in num_digits.iter().enumerate() {
-                let slice = &l[current..current + jump as usize];
-                current += jump as usize + 1;
-                if cols.len() <= i {
-                    cols.push(Vec::new());
-                }
-                cols[i].push(slice.to_string())
-            }
+    let mut cols = vec![Vec::with_capacity(lines.len()); ranges.len()];
+
+    for l in lines {
+        for (i, r) in ranges.iter().enumerate() {
+            let start = r.start;
+            let end = r.end.min(l.len());
+
+            cols[i].push(&l[start..end]);
         }
     }
 
@@ -54,30 +48,20 @@ pub fn run() {
 
     let p2: u64 = cols
         .iter()
-        .enumerate()
-        .map(|(i, col)| {
-            if operations[i] == '+' {
-                let mut nums = [0; 4];
-                for elem in col.iter() {
-                    for (digit, ch) in elem.chars().enumerate() {
-                        if !ch.is_whitespace() {
-                            nums[digit] *= 10;
-                            nums[digit] += ch.to_digit(10).unwrap() as u64;
-                        }
-                    }
+        .zip(&operations)
+        .map(|(col, &op)| {
+            let mut nums = [0; 4];
+
+            for s in col {
+                for (i, b) in s.bytes().enumerate().filter(|(_, b)| *b != b' ') {
+                    nums[i] = nums[i] * 10 + (b - b'0') as u64;
                 }
+            }
+
+            if op == '+' {
                 nums.iter().sum::<u64>()
             } else {
-                let mut nums = [0; 4];
-                for elem in col.iter() {
-                    for (digit, ch) in elem.chars().enumerate() {
-                        if !ch.is_whitespace() {
-                            nums[digit] *= 10;
-                            nums[digit] += ch.to_digit(10).unwrap() as u64;
-                        }
-                    }
-                }
-                nums.iter().filter(|&&n| n != 0).product::<u64>()
+                nums.iter().filter(|&&n| n != 0).product()
             }
         })
         .sum();
