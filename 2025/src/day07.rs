@@ -1,55 +1,30 @@
-use std::collections::HashMap;
-
-fn dfs(
-    row: usize,
-    col: usize,
-    grid: &Vec<&[u8]>,
-    cache: &mut HashMap<(usize, usize), usize>,
-) -> usize {
-    if row == grid.len() - 1 {
-        return 1;
-    }
-
-    if let Some(&cached) = cache.get(&(row, col)) {
-        cached
-    } else if grid[row + 1][col] == b'^' {
-        let timelines = dfs(row + 1, col - 1, grid, cache) + dfs(row + 1, col + 1, grid, cache);
-        cache.insert((row, col), timelines);
-        timelines
-    } else {
-        let timelines = dfs(row + 1, col, grid, cache);
-        cache.insert((row, col), timelines);
-        timelines
-    }
-}
-
 pub fn run() {
     let input = include_str!("../input/day07.txt");
-    let start = (0, input.find('S').unwrap());
-    let mut beams = std::collections::HashSet::new();
-    beams.insert(start);
+    let lines: Vec<&[u8]> = input.lines().map(str::as_bytes).collect();
+    let width = lines[0].len();
+    let start = lines[0].iter().position(|&ch| ch == b'S').unwrap();
 
-    let p1 = input.lines().map(str::as_bytes).fold(0, |acc, l| {
-        let mut n_beams = Vec::new();
-        let mut count = 0;
+    let mut beams = vec![0; width];
+    let mut n_beams = vec![0; width];
+    let mut p1 = 0;
+    beams[start] = 1;
 
-        for &(row, col) in &beams {
-            if l[col] == b'^' {
-                count += 1;
-                n_beams.push((row + 1, col + 1));
-                n_beams.push((row + 1, col - 1));
+    lines.iter().for_each(|line| {
+        for (col, &count) in beams.iter().enumerate().filter(|(_, &cnt)| cnt > 0) {
+            if line[col] == b'^' {
+                p1 += 1;
+                n_beams[col + 1] += count;
+                n_beams[col - 1] += count;
             } else {
-                n_beams.push((row + 1, col));
+                n_beams[col] += count;
             }
         }
 
-        beams = n_beams.iter().cloned().collect();
-        acc + count
+        beams = n_beams.clone();
+        n_beams.fill(0);
     });
 
-    let mut cache = std::collections::HashMap::new();
-    let grid: Vec<&[u8]> = input.lines().map(str::as_bytes).collect();
-    let p2 = dfs(start.0, start.1, &grid, &mut cache);
+    let p2 = beams.iter().sum::<u64>();
 
     println!("Part 1: {p1} Part 2: {p2}");
 }

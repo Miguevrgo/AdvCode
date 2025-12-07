@@ -23,6 +23,7 @@ I hope it results useful to anyone wanting to compare solutions and learn new wa
 | 4 | [Printing Department](https://adventofcode.com/2025/day/4) | [Source](2025/src/day04.rs) | 191 |
 | 5 | [Cafeteria](https://adventofcode.com/2025/day/5) | [Source](2025/src/day05.rs) | 98 |
 | 6 | [Trash Compactor](https://adventofcode.com/2025/day/6) | [Source](2025/src/day06.rs) | 76 |
+| 7 | [Laboratories](https://adventofcode.com/2025/day/7) | [Source](2025/src/day07.rs) | 35 |
 
 ## 2024
 
