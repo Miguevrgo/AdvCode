@@ -50,6 +50,7 @@ fn main() {
         measure("Day 04", year2025::day04::run);
         measure("Day 05", year2025::day05::run);
         measure("Day 06", year2025::day06::run);
+        measure("Day 07", year2025::day07::run);
     }
 
     println!("\n󱐋 Total Time: {:.2?}", total_start.elapsed());
