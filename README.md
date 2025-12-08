@@ -24,6 +24,7 @@ I hope it results useful to anyone wanting to compare solutions and learn new wa
 | 5 | [Cafeteria](https://adventofcode.com/2025/day/5) | [Source](2025/src/day05.rs) | 98 |
 | 6 | [Trash Compactor](https://adventofcode.com/2025/day/6) | [Source](2025/src/day06.rs) | 76 |
 | 7 | [Laboratories](https://adventofcode.com/2025/day/7) | [Source](2025/src/day07.rs) | 35 |
+| 8 | [Playground](https://adventofcode.com/2025/day/8) | [Source](2025/src/day08.rs) | 1620 |
 
 ## 2024
 
