@@ -18,7 +18,7 @@ I hope it results useful to anyone wanting to compare solutions and learn new wa
 | Day | Problem | Solution | Benchmark (μs) |
 | --- | --- | --- | --: |
 | 1 | [Secret Entrance](https://adventofcode.com/2025/day/1) | [Source](2025/src/day01.rs) | 42 |
-| 2 | [Gift Shop](https://adventofcode.com/2025/day/2) | [Source](2025/src/day02.rs) | 37000 |
+| 2 | [Gift Shop](https://adventofcode.com/2025/day/2) | [Source](2025/src/day02.rs) | 1080 |
 | 3 | [Lobby](https://adventofcode.com/2025/day/3) | [Source](2025/src/day03.rs) | 55 |
 | 4 | [Printing Department](https://adventofcode.com/2025/day/4) | [Source](2025/src/day04.rs) | 191 |
 | 5 | [Cafeteria](https://adventofcode.com/2025/day/5) | [Source](2025/src/day05.rs) | 98 |
