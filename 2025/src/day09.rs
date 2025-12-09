@@ -3,6 +3,7 @@
 // The Convex Hull (which will also help P2) using Monotone chain for simplicity
 // (although I recommend reading about Chans Algorithm) allows us to reduce the
 // amount of squares computed
+// https://en.wikibooks.org/wiki/Algorithm_Implementation/Geometry/Convex_hull/Monotone_chain#
 
 fn get_convex_hull(points: &[(i32, i32)]) -> Vec<(i32, i32)> {
     let mut hull = Vec::with_capacity(points.len());
@@ -57,17 +58,16 @@ pub fn run() {
 
     let hull = get_convex_hull(&points);
 
-    let mut p1 = 0;
-
-    for i in 0..hull.len() {
-        for j in (i + 1)..hull.len() {
-            let area = (hull[i].0.abs_diff(hull[j].0) as u64 + 1)
-                * (hull[i].1.abs_diff(hull[j].1) as u64 + 1);
-            if area > p1 {
-                p1 = area;
-            }
-        }
-    }
+    let p1 = hull
+        .iter()
+        .enumerate()
+        .flat_map(|(i, &(c_x, c_y))| {
+            hull[(i + 1)..].iter().map(move |&(h_x, h_y)| {
+                (c_x.abs_diff(h_x) as u64 + 1) * (c_y.abs_diff(h_y) as u64 + 1)
+            })
+        })
+        .max()
+        .unwrap();
 
     println!("Part 1: {p1}");
 }
