@@ -47,7 +47,7 @@ I hope it results useful to anyone wanting to compare solutions and learn new wa
 | 14 | [Restroom Redoubt](https://adventofcode.com/2024/day/14) | [Source](2024/src/day14.rs) | 6330 |
 | 18 | [RAM Run](https://adventofcode.com/2024/day/18) | [Source](2024/src/day18.rs) | 248 |
 | 20 | [Race Condition](https://adventofcode.com/2024/day/20) | [Source](2024/src/day20.rs) | 16080 |
-| 22 | [Monkey Market](https://adventofcode.com/2024/day/22) | [Source](2024/src/day22.rs) | 93420 |
+| 22 | [Monkey Market](https://adventofcode.com/2024/day/22) | [Source](2024/src/day22.rs) | 12310 |
 | 25 | [Code Chronicle](https://adventofcode.com/2024/day/25) | [Source](2024/src/day25.rs) | 25 |
 
 ## 2022
