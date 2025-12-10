@@ -5,3 +5,5 @@ edition = "2021"
 
 [dependencies]
 itertools = "0.14.0"
+ndarray = "0.17.1"
+ndarray-linalg = "0.18.0"
