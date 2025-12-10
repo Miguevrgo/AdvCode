@@ -1,157 +1,135 @@
-use ndarray::prelude::{Array1, Array2};
+type Matrix = [u32; 10];
 
-struct Machine {
-    target: u16, // Each bit is a pos, there are 0..9 = 10 possible bits and 10 < 16
-    buttons: Vec<u16>,
-}
+fn solve_gs2(target_mask: u16, button_masks: &[u16]) -> usize {
+    let num_buttons = button_masks.len();
+    let num_lights = 10;
 
-fn solve_gf2_min_presses(mut matrix: Array2<u16>, mut target: Array1<u16>) -> Option<u32> {
-    let (rows, cols) = matrix.dim();
+    let mut matrix: Matrix = [0; 10];
+    let mut target_bits = target_mask;
+
+    for (btn_idx, &mask) in button_masks.iter().enumerate() {
+        for (row, elem) in matrix.iter_mut().enumerate().take(num_lights) {
+            if (mask >> row) & 1 == 1 {
+                *elem |= 1 << btn_idx;
+            }
+        }
+    }
+
     let mut pivot_row = 0;
-    let mut col_to_pivot = vec![None; cols];
+    let mut col_to_pivot = [None; 32];
 
-    for j in 0..cols {
-        if pivot_row >= rows {
+    for (j, button) in col_to_pivot.iter_mut().enumerate().take(num_buttons) {
+        if pivot_row >= num_lights {
             break;
         }
 
         let mut p = pivot_row;
-        while p < rows && matrix[[p, j]] == 0 {
+        while p < num_lights && (matrix[p] >> j) & 1 == 0 {
             p += 1;
         }
-        if p == rows {
+        if p == num_lights {
             continue;
         }
 
         if p != pivot_row {
-            for k in 0..cols {
-                let tmp = matrix[[pivot_row, k]];
-                matrix[[pivot_row, k]] = matrix[[p, k]];
-                matrix[[p, k]] = tmp;
+            matrix.swap(pivot_row, p);
+
+            let bit_p = (target_bits >> p) & 1;
+            let bit_pivot = (target_bits >> pivot_row) & 1;
+            if bit_p != bit_pivot {
+                target_bits ^= (1 << p) | (1 << pivot_row);
             }
-            let tmp_t = target[pivot_row];
-            target[pivot_row] = target[p];
-            target[p] = tmp_t;
         }
 
-        for i in 0..rows {
-            if i != pivot_row && matrix[[i, j]] == 1 {
-                for k in j..cols {
-                    matrix[[i, k]] ^= matrix[[pivot_row, k]];
+        for i in 0..num_lights {
+            if i != pivot_row && (matrix[i] >> j) & 1 == 1 {
+                matrix[i] ^= matrix[pivot_row];
+                if (target_bits >> pivot_row) & 1 == 1 {
+                    target_bits ^= 1 << i;
                 }
-                target[i] ^= target[pivot_row];
             }
         }
-
-        col_to_pivot[j] = Some(pivot_row);
+        *button = Some(pivot_row);
         pivot_row += 1;
     }
 
-    for i in pivot_row..rows {
-        if target[i] != 0 {
-            return None;
+    for i in pivot_row..num_lights {
+        if (target_bits >> i) & 1 == 1 {
+            return 0;
         }
     }
 
-    let mut free_cols = Vec::new();
-    for (j, elem) in col_to_pivot.iter().enumerate().take(cols) {
-        if elem.is_none() {
-            free_cols.push(j);
+    let mut free_vars = [0usize; 32];
+    let mut num_free = 0;
+    for (j, button) in col_to_pivot.iter().enumerate().take(num_buttons) {
+        if button.is_none() {
+            free_vars[num_free] = j;
+            num_free += 1;
         }
     }
 
-    let mut min_presses = u32::MAX;
-    let num_free = free_cols.len();
+    (0..(1 << num_free))
+        .map(|mask| {
+            let mut x = 0u32;
+            let mut presses = 0;
 
-    for i in 0..(1 << num_free) {
-        let mut x = vec![0u16; cols];
-
-        for (bit_idx, &col_idx) in free_cols.iter().enumerate() {
-            x[col_idx] = ((i >> bit_idx) & 1) as u16;
-        }
-
-        for j in (0..cols).rev() {
-            if let Some(r) = col_to_pivot[j] {
-                let mut sum = 0;
-                for k in (j + 1)..cols {
-                    sum ^= matrix[[r, k]] & x[k];
+            for (k, free_var) in free_vars.iter().enumerate().take(num_free) {
+                if (mask >> k) & 1 == 1 {
+                    x |= 1 << free_var;
+                    presses += 1;
                 }
-                x[j] = target[r] ^ sum;
             }
-        }
 
-        let presses = x.iter().map(|&v| v as u32).sum();
-        if presses < min_presses {
-            min_presses = presses;
-        }
-    }
+            for j in (0..num_buttons).rev() {
+                if let Some(r) = col_to_pivot[j] {
+                    let sum = (matrix[r] & x).count_ones() % 2;
+                    let needed = ((target_bits >> r) & 1) as u32;
 
-    if min_presses == u32::MAX {
-        None
-    } else {
-        Some(min_presses)
-    }
+                    if needed ^ sum == 1 {
+                        x |= 1 << j;
+                        presses += 1;
+                    }
+                }
+            }
+            presses
+        })
+        .min()
+        .unwrap()
 }
 
 pub fn run() {
     let input = include_str!("../input/day10.txt");
 
-    let parts: Vec<Machine> = input
+    let p1: usize = input
         .lines()
+        .filter(|l| !l.trim().is_empty())
         .map(|line| {
             let mut parts = line.split_whitespace();
 
-            let target_str = parts.next().unwrap();
-            let target = target_str
-                .chars()
-                .skip(1)
-                .take_while(|&ch| ch != ']')
-                .enumerate()
-                .fold(
-                    0u16,
-                    |acc, (i, ch)| {
-                        if ch == '#' {
-                            acc | (1 << i)
-                        } else {
-                            acc
-                        }
-                    },
-                );
+            let tgt_str = parts.next().unwrap();
+            let target_mask = tgt_str.chars().enumerate().fold(0u16, |acc, (i, c)| {
+                if c == '#' {
+                    acc | (1 << (i - 1))
+                } else {
+                    acc
+                }
+            });
 
-            let buttons = parts
-                .take_while(|p| p.starts_with('('))
-                .map(|p| {
-                    p.trim_matches(|c| c == '(' || c == ')' || c == ',')
+            let mut buttons = Vec::with_capacity(20);
+            for part in parts {
+                if part.starts_with('(') {
+                    let mask = part
+                        .trim_matches(|c| c == '(' || c == ')' || c == ',')
                         .split(',')
-                        .map(|n| n.parse::<u16>().unwrap())
-                        .fold(0u16, |acc, bit| acc | (1 << bit))
-                })
-                .collect();
-
-            Machine { target, buttons }
-        })
-        .collect();
-
-    let mut p1 = 0;
-    for part in parts {
-        let m = part.buttons.len();
-        let n = 16; // u16 bits
-
-        let mut matrix = Array2::<u16>::zeros((n, m));
-        let mut target_arr = Array1::<u16>::zeros(n);
-        for (i, row_idx) in (0..n).enumerate() {
-            target_arr[i] = (part.target >> i) & 1;
-
-            let mut row_vec = Vec::new();
-            for button in &part.buttons {
-                row_vec.push((button >> row_idx) & 1);
+                        .filter_map(|n| n.parse::<u8>().ok())
+                        .fold(0u16, |acc, bit| acc | (1 << bit));
+                    buttons.push(mask);
+                }
             }
 
-            matrix.row_mut(i).assign(&Array1::from(row_vec));
-        }
+            solve_gs2(target_mask, &buttons)
+        })
+        .sum();
 
-        p1 += solve_gf2_min_presses(matrix, target_arr).unwrap();
-    }
-
-    println!("Part 1: {p1}");
+    println!("Part 1: {}", p1);
 }
