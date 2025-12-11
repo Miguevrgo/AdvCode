@@ -27,7 +27,7 @@ I hope it results useful to anyone wanting to compare solutions and learn new wa
 | 8 | [Playground](https://adventofcode.com/2025/day/8) | [Source](2025/src/day08.rs) | 1620 |
 | 9 | [Movie Theater](https://adventofcode.com/2025/day/9) | [Source](2025/src/day09.rs) | 327 |
 | 10 | [Factory](https://adventofcode.com/2025/day/10) | [Source](2025/src/day10.rs) | 16640 |
-| 11 | [Reactor](https://adventofcode.com/2025/day/11) | [Source](2025/src/day11.rs) | 173 |
+| 11 | [Reactor](https://adventofcode.com/2025/day/11) | [Source](2025/src/day11.rs) | 100 |
 
 ## 2024
 
