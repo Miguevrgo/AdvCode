@@ -18,6 +18,7 @@ fn main() {
         measure("Day 03", year2022::day03::run);
         measure("Day 04", year2022::day04::run);
         measure("Day 05", year2022::day05::run);
+        measure("Day 06", year2022::day06::run);
     }
 
     if filter.is_empty() || filter == "2024" {
@@ -55,6 +56,7 @@ fn main() {
         measure("Day 09", year2025::day09::run);
         measure("Day 10", year2025::day10::run);
         measure("Day 11", year2025::day11::run);
+        measure("Day 12", year2025::day12::run);
     }
 
     println!("\n󱐋 Total Time: {:.2?}", total_start.elapsed());

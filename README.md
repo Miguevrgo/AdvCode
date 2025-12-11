@@ -61,3 +61,4 @@ I hope it results useful to anyone wanting to compare solutions and learn new wa
 | 3 | [Rucksack Reorganization](https://adventofcode.com/2022/day/3) | [Source](2022/src/day03.rs) | 39 |
 | 4 | [Camp Cleanup](https://adventofcode.com/2022/day/4) | [Source](2022/src/day04.rs) | 24 |
 | 5 | [Supply Stacks](https://adventofcode.com/2022/day/5) | [Source](2022/src/day05.rs) | 36 |
+| 6 | [Tuning Trouble](https://adventofcode.com/2022/day/6) | [Source](2022/src/day06.rs) | 6 |
