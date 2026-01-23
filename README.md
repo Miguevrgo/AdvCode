@@ -64,3 +64,4 @@ I hope it results useful to anyone wanting to compare solutions and learn new wa
 | 5 | [Supply Stacks](https://adventofcode.com/2022/day/5) | [Source](2022/src/day05.rs) | 36 |
 | 6 | [Tuning Trouble](https://adventofcode.com/2022/day/6) | [Source](2022/src/day06.rs) | 6 |
 | 7 | [No Space Left On Device](https://adventofcode.com/2022/day/7) | [Source](2022/src/day07.rs) | 32 |
+| 8 | [Treetop Tree House](https://adventofcode.com/2022/day/8) | [Source](2022/src/day08.rs) | 315 |
