@@ -23,6 +23,7 @@ fn main() {
         "07" | "7" => crate::day07::run(),
         "08" | "8" => crate::day08::run(),
         "09" | "9" => crate::day09::run(),
+        "10" => crate::day10::run(),
         _ => println!("Day not implemented or not found"),
     }
 
