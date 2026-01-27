@@ -67,3 +67,4 @@ I hope it results useful to anyone wanting to compare solutions and learn new wa
 | 8 | [Treetop Tree House](https://adventofcode.com/2022/day/8) | [Source](2022/src/day08.rs) | 315 |
 | 9 | [Rope Bridge](https://adventofcode.com/2022/day/9) | [Source](2022/src/day09.rs) | 490 |
 | 10 | [Cathode-Ray Tube](https://adventofcode.com/2022/day/10) | [Source](2022/src/day10.rs) | 11 |
+| 12 | [Hill Climbing Algorithm](https://adventofcode.com/2022/day/12) | [Source](2022/src/day12.rs) | 114 |

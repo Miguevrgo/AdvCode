@@ -23,6 +23,7 @@ fn main() {
         measure("Day 08", year2022::day08::run);
         measure("Day 09", year2022::day09::run);
         measure("Day 10", year2022::day10::run);
+        measure("Day 12", year2022::day12::run);
     }
 
     if filter.is_empty() || filter == "2024" {
