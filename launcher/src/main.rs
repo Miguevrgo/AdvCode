@@ -3,6 +3,8 @@ use std::time::Instant;
 
 use gag::Gag;
 
+mod year2023;
+
 fn main() {
     let args: Vec<String> = env::args().collect();
 
@@ -24,6 +26,14 @@ fn main() {
         measure("Day 09", year2022::day09::run);
         measure("Day 10", year2022::day10::run);
         measure("Day 12", year2022::day12::run);
+    }
+
+    if filter.is_empty() || filter == "2023" {
+        println!("\n  2023");
+        if let Err(error) = year2023::run() {
+            eprintln!("2023: {error}");
+            std::process::exit(1);
+        }
     }
 
     if filter.is_empty() || filter == "2024" {

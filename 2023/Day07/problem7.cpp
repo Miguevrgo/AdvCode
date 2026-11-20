@@ -42,7 +42,7 @@ string hand_type(map<string, int>& cards_in_hand, bool isPart2) {
     }
 
     int most_cards = sorted_hand[0].second;
-    int next_most = sorted_hand[1].second;
+    int next_most = sorted_hand.size() > 1 ? sorted_hand[1].second : 0;
     string type;
     switch (most_cards) {
         case 5:
