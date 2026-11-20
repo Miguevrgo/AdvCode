@@ -1,0 +1,52 @@
+// Advent of Code 2021, day 1: Sonar Sweep
+import std.os;
+
+fn parse(input: str) Vec<i64> {
+    return input.lines().map(fn(line) line.parse_int().unwrap());
+}
+
+// How many depths are larger than the one `gap` places before them.
+fn increases(depths: &Vec<i64>, gap: usize) usize {
+    var count: usize = 0;
+    for i in gap..depths.len() {
+        if depths[i] > depths[i - gap] {
+            count += 1;
+        }
+    }
+    return count;
+}
+
+fn part1(input: str) usize {
+    return increases(&parse(input), 1);
+}
+
+fn part2(input: str) usize {
+    return increases(&parse(input), 3);
+}
+
+fn main() {
+    const input = os::read_stdin().unwrap();
+    println("{}", part1(input));
+    println("{}", part2(input));
+}
+
+#test {
+    const EXAMPLE: str = `199
+200
+208
+210
+200
+207
+240
+269
+260
+263`;
+
+    test("part 1") {
+        assert(part1(EXAMPLE) == 7);
+    }
+
+    test("part 2") {
+        assert(part2(EXAMPLE) == 5);
+    }
+}

@@ -1,0 +1,28 @@
+// Advent of Code 2026, day 2
+import std.os;
+
+fn part1(_input: str) i64 {
+    return 0;
+}
+
+fn part2(_input: str) i64 {
+    return 0;
+}
+
+fn main() {
+    const input = os::read_stdin().unwrap();
+    println("{}", part1(input));
+    println("{}", part2(input));
+}
+
+#test {
+    const EXAMPLE: str = ``;
+
+    test("part 1") {
+        assert(part1(EXAMPLE) == 0);
+    }
+
+    test("part 2") {
+        assert(part2(EXAMPLE) == 0);
+    }
+}

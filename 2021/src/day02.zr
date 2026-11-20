@@ -1,0 +1,61 @@
+// Advent of Code 2021, day 2: Dive!
+import std.os;
+
+fn part1(input: str) i64 {
+    var x: i64 = 0;
+    var depth: i64 = 0;
+    for line in input.lines() {
+        const w = line.split();
+        const n = w[1].parse_int().unwrap();
+        match w[0] {
+            "forward" => x += n,
+            "down" => depth += n,
+            "up" => depth -= n,
+            default => {}
+        }
+    }
+    return x * depth;
+}
+
+fn part2(input: str) i64 {
+    var x: i64 = 0;
+    var depth: i64 = 0;
+    var aim: i64 = 0;
+    for line in input.lines() {
+        const w = line.split();
+        const n = w[1].parse_int().unwrap();
+        match w[0] {
+            "forward" => {
+                x += n;
+                depth += aim * n;
+            }
+            "down" => aim += n,
+            "up" => aim -= n,
+            default => {}
+        }
+    }
+    return x * depth;
+}
+
+fn main() {
+    const input = os::read_stdin().unwrap();
+    println("{}", part1(input));
+    println("{}", part2(input));
+}
+
+#test {
+    const EXAMPLE: str = `forward 5
+down 5
+forward 8
+up 3
+down 8
+forward 2`;
+
+    test("part 1") {
+        assert(part1(EXAMPLE) == 150);
+    }
+
+    test("part 2") {
+        assert(part2(EXAMPLE) == 900);
+    }
+}
