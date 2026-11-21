@@ -1,6 +1,6 @@
 import std.fs;
 
-fn part1(input: &str) i32 {
+fn part1(input: str) i32 {
     var tmp = i32.MAX;
     var cnt = 0;
 
@@ -14,7 +14,7 @@ fn part1(input: &str) i32 {
     return cnt;
 }
 
-fn part2(input: &str) i32 {
+fn part2(input: str) i32 {
     var tmp = i32.MAX;
     var cnt = 0;
 
@@ -29,8 +29,7 @@ fn part2(input: &str) i32 {
     return cnt;
 }
 
-fn main() {
+pub fn run() String {
     const INPUT: str = fs::embed_file("../input/day01.txt");
-    println("{}", part1(&INPUT));
-    println("{}", part2(&INPUT));
+    return format("{} {}", part1(INPUT), part2(INPUT));
 }

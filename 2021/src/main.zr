@@ -1,0 +1,34 @@
+import std.os;
+import day01;
+import day02;
+import day03;
+
+const RUNS: usize = 101;
+const BUDGET_NS: u64 = 1_000_000_000;
+
+// What the launcher runs: every day, or only the one given (0 for all),
+// each RUNS times or for BUDGET_NS, whichever ends first, printing the day
+// and its median time in nanoseconds.
+fn main() {
+    const args = os::args();
+    const only = if args.len() > 1 { args[1].parse().unwrap() } else { 0 };
+    measure(1, only, day01::run);
+    measure(2, only, day02::run);
+    measure(3, only, day03::run);
+}
+
+fn measure(day: i32, only: i32, run: fn() String) {
+    if only != 0 && only != day {
+        return;
+    }
+    var times: Vec<u64> = Vec.new();
+    var spent: u64 = 0;
+    while times.len() < RUNS && spent < BUDGET_NS {
+        const clock = os::Clock.now();
+        var _ = run();
+        times.push(clock.elapsed());
+        spent += times[times.len() - 1];
+    }
+    times.sort();
+    println("{} {}", day, times[times.len() / 2]);
+}

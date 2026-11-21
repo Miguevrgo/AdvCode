@@ -13,9 +13,12 @@ I hope it results useful to anyone wanting to compare solutions and learn new wa
 
 ## Benchmarks
 
-Run `cargo run --release` from the repository root to benchmark all years, or
-`cargo run --release -- 2023` to benchmark 2023. The 2023 benchmarks use `c++`
-(override with `CXX`) to compile with `-std=c++17 -O3 -march=native -flto`.
+Run `cargo run --release` from the repository root to benchmark all years,
+`cargo run --release -- 2023` to benchmark 2023, or `cargo run --release -- 2023 5`
+for its day 5. The 2023 benchmarks use `c++` (override with `CXX`) to compile with
+`-std=c++17 -O3 -march=native -flto`. 2021 is written in Zeru: `2021/src/main.zr`,
+built with `zeru run --release-fast` (override with `ZERU`), times each day in
+process and reports the median of up to 101 runs.
 
 ## 2025
 
@@ -96,3 +99,11 @@ Day 2 Part 2 and Day 14 are still incomplete.
 | 9 | [Rope Bridge](https://adventofcode.com/2022/day/9) | [Source](2022/src/day09.rs) | 490 |
 | 10 | [Cathode-Ray Tube](https://adventofcode.com/2022/day/10) | [Source](2022/src/day10.rs) | 11 |
 | 12 | [Hill Climbing Algorithm](https://adventofcode.com/2022/day/12) | [Source](2022/src/day12.rs) | 114 |
+
+## 2021
+
+| Day | Problem | Solution | Benchmark (μs) |
+| --- | --- | --- | --: |
+| 1 | [Sonar Sweep](https://adventofcode.com/2021/day/1) | [Source](2021/src/day01.zr) | 29 |
+| 2 | [Dive!](https://adventofcode.com/2021/day/2) | [Source](2021/src/day02.zr) | 40 |
+| 3 | [Binary Diagnostic](https://adventofcode.com/2021/day/3) | [Source](2021/src/day03.zr) | 22 |

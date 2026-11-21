@@ -1,0 +1,49 @@
+import std.fs;
+import std.os;
+
+fn part1(input: str) i32 {
+    const lines = input.lines();
+    const width = lines[0].len();
+
+    var counts: Array<u16, 12> = [0; 12];
+    for line in lines {
+        for i, bit in line {
+            counts[i] += (bit - '0') as u16;
+        }
+    }
+
+    var gamma = 0;
+    for i in 0..width {
+        gamma = gamma * 2 + (counts[i] as usize * 2 > lines.len()) as i32;
+    }
+
+    return gamma * ((1 << width) - 1 - gamma);
+}
+
+fn rating(input: str, most: bool) i32 {
+    var lines = input.lines();
+    var bit: usize = 0;
+
+    while lines.len() > 1 {
+        const ones = lines.filter(fn(line) line[bit] == '1').len();
+        const wanted: u8 = if (ones * 2 >= lines.len()) == most { '1' } else { '0' };
+        lines = lines.filter(fn(line) line[bit] == wanted);
+        bit += 1;
+    }
+
+    var value = 0;
+    for c in lines[0] {
+        value = value * 2 + (c - '0') as i32;
+    }
+
+    return value;
+}
+
+fn part2(input: str) i32 {
+    return rating(input, true) * rating(input, false);
+}
+
+pub fn run() String {
+    const input = fs::embed_file("../input/day03.txt");
+    return format("{} {}", part1(input), part2(input));
+}

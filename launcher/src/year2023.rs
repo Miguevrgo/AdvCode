@@ -5,14 +5,14 @@ use std::path::Path;
 use std::process::{Command, Stdio};
 use std::time::Duration;
 
-pub fn run() -> Result<(), Box<dyn Error>> {
+pub fn run(only: Option<u32>) -> Result<(), Box<dyn Error>> {
     let launcher = Path::new(env!("CARGO_MANIFEST_DIR"));
     let runner = launcher.join("benchmark.cpp");
     let compiler = env::var_os("CXX").unwrap_or_else(|| "c++".into());
     let build = tempfile::tempdir()?;
     let binary = build.path().canonicalize()?.join("solution");
 
-    for day in 1..=14 {
+    for day in (1..=14).filter(|day| only.is_none_or(|only| only == *day)) {
         let source_dir = launcher.join(format!("../2023/Day{day:02}"));
         let mut elapsed = Duration::ZERO;
 
