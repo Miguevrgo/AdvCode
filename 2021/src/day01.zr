@@ -1,15 +1,14 @@
-// Advent of Code 2021, day 1: Sonar Sweep
 import std.fs;
 
 fn part1(input: &str) i32 {
     var tmp = i32.MAX;
     var cnt = 0;
 
-    for line in input.lines().map(fn(line) line.parse_int().unwrap()) {
-        if line as i32 > tmp {
+    for line in input.lines().map(fn(line) line.parse().unwrap()) {
+        if line > tmp {
             cnt += 1;
         }
-        tmp = line as i32;
+        tmp = line;
     }
 
     return cnt;
@@ -19,12 +18,12 @@ fn part2(input: &str) i32 {
     var tmp = i32.MAX;
     var cnt = 0;
 
-    for window_sum in input.lines().map(fn(line) line.parse_int().unwrap()).windows(3) {
+    for window_sum in input.lines().map(fn(line) line.parse().unwrap()).windows(3) {
         const SUM = window_sum.sum();
-        if SUM as i32 > tmp {
+        if SUM > tmp {
             cnt += 1;
         }
-        tmp = SUM as i32;
+        tmp = SUM;
     }
 
     return cnt;

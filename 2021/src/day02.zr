@@ -1,0 +1,44 @@
+import std.fs;
+
+fn part1(input: &str) i32 {
+    var pos_x = 0;
+    var pos_y = 0;
+
+    for line in input.lines().map(fn(line) line.split()) {
+        match line[0] {
+            "forward" => pos_x += line[1].parse().unwrap(),
+            "down" => pos_y += line[1].parse().unwrap(),
+            "up" => pos_y -= line[1].parse().unwrap(),
+            default => {}
+        }
+    }
+
+    return pos_x * pos_y;
+}
+
+fn part2(input: &str) i32 {
+    var x = 0;
+    var depth = 0;
+    var aim = 0;
+
+    for line in input.lines().map(fn(line) line.split()) {
+        const n = line[1].parse().unwrap();
+        match line[0] {
+            "forward" => {
+                x += n;
+                depth += aim * n;
+            }
+            "down" => aim += n,
+            "up" => aim -= n,
+            default => {}
+        }
+    }
+
+    return x * depth;
+}
+
+fn main() {
+    const INPUT: str = fs::embed_file("../input/day02.txt");
+    println("{}", part1(&INPUT));
+    println("{}", part2(&INPUT));
+}
